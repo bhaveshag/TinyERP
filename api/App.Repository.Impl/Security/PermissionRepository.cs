@@ -27,6 +27,10 @@
 
         public IList<Permission> GetPermissions(IList<System.Guid> ids)
         {
+            if(ids == null)
+            {
+                return new List<Permission>();
+            }
             return this.DbSet.AsQueryable().Where(per => ids.Contains(per.Id)).ToList();
         }
 

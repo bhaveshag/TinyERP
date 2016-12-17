@@ -19,7 +19,7 @@
         public CreateUserGroupResponse Create(CreateUserGroupRequest request)
         {
             this.ValidateCreateRequest(request);
-            using (App.Common.Data.IUnitOfWork uow = new App.Common.Data.UnitOfWork(new App.Context.AppDbContext(IOMode.Write)))
+            using (IUnitOfWork uow = new UnitOfWork(new AppDbContext(IOMode.Write)))
             {
                 IUserGroupRepository userGroupRepository = IoC.Container.Resolve<IUserGroupRepository>(uow);
                 IPermissionRepository permissionRepo = IoC.Container.Resolve<IPermissionRepository>(uow);
@@ -27,7 +27,8 @@
                 UserGroup userGroup = new UserGroup(request.Name, request.Description, permissions);
                 userGroupRepository.Add(userGroup);
                 uow.Commit();
-                return new CreateUserGroupResponse(userGroup);
+                //return new CreateUserGroupResponse(userGroup);
+                return ObjectHelper.Convert<CreateUserGroupResponse>(userGroup);
             }
         }
 
@@ -37,7 +38,7 @@
             {
                 throw new App.Common.Validation.ValidationException("security.addOrUpdateUserGroup.validation.nameIsRequire");
             }
-
+            
             IUserGroupRepository repo = IoC.Container.Resolve<IUserGroupRepository>();
             if (repo.GetByName(request.Name) != null)
             {
@@ -144,12 +145,12 @@
             IUserGroupRepository repository = IoC.Container.Resolve<IUserGroupRepository>();
             if (repository.GetById(request.Id.ToString()) == null)
             {
-                throw new ValidationException("security.addOrUpdateUserGroup.validation.itemNotExist");
+                throw new ValidationException("security.addOrUpdateUserGroup.validation.idIsInvalid");
             }
 
             if (string.IsNullOrWhiteSpace(request.Name))
             {
-                throw new ValidationException("security.addOrUpdateUserGroup.validation.nameIsRequired");
+                throw new ValidationException("security.addOrUpdateUserGroup.validation.nameIsRequire");
             }
 
             string key = App.Common.Helpers.UtilHelper.ToKey(request.Name);

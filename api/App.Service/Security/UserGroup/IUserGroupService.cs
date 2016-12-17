@@ -1,6 +1,5 @@
-﻿namespace App.Service.Security
+﻿namespace App.Service.Security.UserGroup
 {
-    using App.Service.Security.UserGroup;
     using System;
 
     public interface IUserGroupService

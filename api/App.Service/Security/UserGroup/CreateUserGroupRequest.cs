@@ -1,12 +1,13 @@
 ﻿namespace App.Service.Security.UserGroup
 {
-    using App.Common.Data;
-    using App.Common.Mapping;
     using System;
+    using System.Linq;
     using System.Collections.Generic;
     using App.Common.Validation.Attribute;
+    using App.Common.Data;
+    using App.Common.Mapping;
 
-    public class UpdateUserGroupRequest
+    public class CreateUserGroupRequest
     {
         [Required("security.addOrUpdateUserGroup.validation.idIsInvalid")]
         public Guid Id { get; set; }
@@ -17,12 +18,13 @@
         public string Description { get; set; }
         public IList<Guid> PermissionIds { get; set; }
         
-        public UpdateUserGroupRequest(Guid id, string name, string desc)
+        public CreateUserGroupRequest(string name, string desc, IList<string> permissionIds = null)
         {
-            Id = id;
-            Name = name;
-            Key = App.Common.Helpers.UtilHelper.ToKey(name);
-            Description = desc;
+            this.Name = name;
+            this.Key = App.Common.Helpers.UtilHelper.ToKey(name);
+            this.Description = desc;
+            if(PermissionIds != null) { permissionIds.ToList().ForEach(x => PermissionIds.Add(Guid.Parse(x))); }
+            else { PermissionIds = new List<Guid>(); }
         }
     }
 }
