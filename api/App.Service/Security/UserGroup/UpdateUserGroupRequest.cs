@@ -19,10 +19,10 @@
         
         public UpdateUserGroupRequest(Guid id, string name, string desc)
         {
-            Id = id;
-            Name = name;
-            Key = App.Common.Helpers.UtilHelper.ToKey(name);
-            Description = desc;
+            this.Id = id;
+            this.Name = name;
+            this.Key = App.Common.Helpers.UtilHelper.ToKey(name);
+            this.Description = desc;
         }
     }
 }

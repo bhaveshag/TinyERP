@@ -23,8 +23,11 @@
             this.Name = name;
             this.Key = App.Common.Helpers.UtilHelper.ToKey(name);
             this.Description = desc;
-            if(PermissionIds != null) { permissionIds.ToList().ForEach(x => PermissionIds.Add(Guid.Parse(x))); }
-            else { PermissionIds = new List<Guid>(); }
+            if (this.PermissionIds != null)
+            {
+                permissionIds.ToList().ForEach(x => this.PermissionIds.Add(Guid.Parse(x)));
+            }
+            else { this.PermissionIds = new List<Guid>(); }
         }
     }
 }
