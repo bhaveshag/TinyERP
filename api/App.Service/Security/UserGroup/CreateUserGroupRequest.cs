@@ -23,7 +23,7 @@
             this.Name = name;
             this.Key = App.Common.Helpers.UtilHelper.ToKey(name);
             this.Description = desc;
-            if (this.PermissionIds != null)
+            if (permissionIds != null)
             {
                 permissionIds.ToList().ForEach(x => this.PermissionIds.Add(Guid.Parse(x)));
             }
